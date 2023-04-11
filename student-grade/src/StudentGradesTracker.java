@@ -1,7 +1,4 @@
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class StudentGradesTracker {
 
@@ -23,13 +20,13 @@ public class StudentGradesTracker {
             scanner.nextLine();
             switch (choice) {
                 case 1:
-                    System.out.println("Add student");
+                    addStudent();
                     break;
                 case 2:
-                    System.out.println("Remove student");
+                    removeStudent();
                     break;
                 case 3:
-                    System.out.println("Update student grade");
+                    updateStudentGrade();
                     break;
                 case 4:
                     System.out.println("View all student grades");
@@ -59,6 +56,42 @@ public class StudentGradesTracker {
         System.out.println("5. View grades of a specific student");
         System.out.println("6. Save to File");
         System.out.println("7. Quit");
+    }
+
+    private static void addStudent() {
+        System.out.print("Enter the student's name: ");
+        String name = scanner.nextLine();
+        if (studentGrades.containsKey(name)) {
+            System.out.println("Student already exists! Please remove the student first.");
+        } else {
+            studentGrades.put(name, new ArrayList<>());
+            System.out.println("Student added.");
+        }
+    }
+
+    private static void removeStudent() {
+        System.out.print("Enter the student's name to remove: ");
+        String name = scanner.nextLine();
+        if (studentGrades.containsKey(name)) {
+            studentGrades.remove(name);
+            System.out.println("Student removed");
+        } else {
+            System.out.println("Student not found");
+        }
+    }
+
+    private static void updateStudentGrade() {
+        System.out.print("Enter the student's name: ");
+        String name = scanner.nextLine();
+        if (studentGrades.containsKey(name)) {
+            System.out.print("Enter student's grade: ");
+            int grade = scanner.nextInt();
+            List<Integer> grades = studentGrades.get(name);
+            grades.add(grade);
+            studentGrades.put(name, grades);
+        } else {
+            System.out.println("Student not found");
+        }
     }
 
     private static void loadFile(String fileName) {
