@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.*;
 
 public class StudentGradesTracker {
@@ -35,7 +36,7 @@ public class StudentGradesTracker {
                     viewStudentGrades();
                     break;
                 case 6:
-                    System.out.println("Save to file");
+                    saveToFile();
                     break;
                 case 7:
                     System.out.println("Goodbye!");
@@ -113,7 +114,32 @@ public class StudentGradesTracker {
     }
 
     private static void loadFile(String fileName) {
-        System.out.println("Data loaded from file");
+        try (FileInputStream fileInputStream = new FileInputStream(fileName);
+             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+
+            studentGrades = (Map<String, List<Integer>>) objectInputStream.readObject();
+            System.out.println("Data loaded from file.");
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Error while loading data from file.");
+        }
+    }
+
+    private static void saveToFile() {
+        System.out.print("Enter the file name to save: ");
+        String fileName = scanner.nextLine();
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+
+            objectOutputStream.writeObject(studentGrades);
+            System.out.println("Data saved to file.");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error while saving data to file.");
+        }
     }
 
 }
