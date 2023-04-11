@@ -29,10 +29,10 @@ public class StudentGradesTracker {
                     updateStudentGrade();
                     break;
                 case 4:
-                    System.out.println("View all student grades");
+                    viewAllStudentGrades();
                     break;
                 case 5:
-                    System.out.println("View student grades");
+                    viewStudentGrades();
                     break;
                 case 6:
                     System.out.println("Save to file");
@@ -91,6 +91,24 @@ public class StudentGradesTracker {
             studentGrades.put(name, grades);
         } else {
             System.out.println("Student not found");
+        }
+    }
+
+    private static void viewAllStudentGrades() {
+        for (Map.Entry<String, List<Integer>> entry : studentGrades.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+
+    private static void viewStudentGrades() {
+        System.out.print("Enter the student's name: ");
+        String name = scanner.nextLine();
+        if (!studentGrades.containsKey(name)) {
+            System.out.println("Student not found");
+        } else {
+            List<Integer> grades = studentGrades.get(name);
+            System.out.println(name + ": " + grades);
+            grades.forEach(System.out::println);
         }
     }
 
